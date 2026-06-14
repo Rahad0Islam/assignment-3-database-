@@ -14,43 +14,52 @@ DROP TABLE IF EXISTS Users;
 -- 1. CREATE USERS TABLE
 -- =========================================================================
 CREATE TABLE Users (
-    user_id TYPE,
-    full_name TYPE,
-    email TYPE,
-    role TYPE,
-    phone_number TYPE,
-    
-    -- Write your constraint to make 'user_id' the Primary Key
-    -- Write your constraint to ensure 'email' values are never duplicated
-    -- Write your check constraint to restrict 'role' to specific allowed strings
+    user_id SERIAL,
+    full_name VARCHAR(255),
+    email VARCHAR(255),
+    role VARCHAR(255),
+    phone_number VARCHAR(30),
+
+    PRIMARY KEY(user_id),
+    UNIQUE(email),
+    CHECK(role IN('Ticket Manager','Football Fan'))
+
 );
 
 -- =========================================================================
 -- 2. CREATE MATCHES TABLE
 -- =========================================================================
 CREATE TABLE Matches (
-    match_id TYPE,
-    fixture TYPE,
-    tournament_category TYPE,
-    base_ticket_price TYPE,
-    match_status TYPE,
-    
+    match_id SERIAL,
+    fixture VARCHAR(255),
+    tournament_category VARCHAR(255),
+    base_ticket_price DECIMAL(10,2),
+    match_status VARCHAR(255),
+    PRIMARY KEY(match_id),
+    CHECK(base_ticket_price>0),
+    CHECK (match_status IN('Available','Selling Fast','Sold Out','Postponed'))
     -- Write your constraint to make 'match_id' the Primary Key
     -- Write your check constraint to prevent negative ticket prices
     -- Write your check constraint to restrict 'match_status' values
+
 );
 
 -- =========================================================================
 -- 3. CREATE BOOKINGS TABLE
 -- =========================================================================
 CREATE TABLE Bookings (
-    booking_id TYPE,
-    user_id TYPE,
-    match_id TYPE,
-    seat_number TYPE,
-    payment_status TYPE,
-    total_cost TYPE,
+    booking_id SERIAL,
+    user_id INT,
+    match_id INT,
+    seat_number VARCHAR(55),
+    payment_status VARCHAR(60),
+    total_cost DECIMAL(10,2),
     
+    PRIMARY KEY(booking_id),
+    Foreign Key (user_id) REFERENCES Users(user_id),
+    Foreign Key (match_id) REFERENCES Matches(match_id),
+    CHECK (total_cost>0),
+    CHECK (payment_status IN ('Pending','Confirmed','Cancelled','Refunded'))
     -- Write your constraint to make 'booking_id' the Primary Key
     -- Write your Foreign Key constraint linking 'user_id' to the Users table
     -- Write your Foreign Key constraint linking 'match_id' to the Matches table
