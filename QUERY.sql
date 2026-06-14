@@ -118,6 +118,38 @@ SELECT booking_id,user_id,match_id,COALESCE(payment_status,'Action Required')as 
 FROM bookings
 WHERE payment_status is NULL;
 
+-- query 4
+SELECT booking_id,full_name,fixture,total_cost
+FROM bookings
+INNER join users USING(user_id)
+INNER JOIN matches USING(match_id);
+
+
+-- query 5
+
+SELECT user_id,full_name,booking_id
+FROM users
+left JOIN bookings USING (user_id);
+
+-- query 6
+SELECT booking_id,match_id,total_cost
+FROM bookings
+WHERE total_cost >  (
+    SELECT AVG(total_cost)
+    FROM bookings
+);
+
+-- query 7
+
+SELECT match_id,fixture,base_ticket_price
+FROM matches
+WHERE  base_ticket_price != (
+    SELECT max(base_ticket_price)
+    FROM matches
+)
+ORDER BY base_ticket_price DESC
+LIMIT 2;
+
 
 
 
