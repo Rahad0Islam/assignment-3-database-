@@ -111,7 +111,7 @@ WHERE tournament_category = 'Champions League'
 SELECT user_id,full_name,email
 FROM users
 WHERE full_name ILIKE 'tanvir%'
-or full_name ILIKE '%Haque';
+or full_name ILIKE '%Haque%';
 
 -- query 3
 
@@ -141,16 +141,9 @@ WHERE total_cost >  (
 );
 
 -- query 7
-
-SELECT match_id,fixture,base_ticket_price
+SELECT match_id, fixture, base_ticket_price
 FROM matches
-WHERE  base_ticket_price != (
-    SELECT max(base_ticket_price)
-    FROM matches
-)
 ORDER BY base_ticket_price DESC
-LIMIT 2;
-
-
+LIMIT 2 OFFSET 1;
 
 
