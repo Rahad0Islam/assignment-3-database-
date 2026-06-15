@@ -56,8 +56,14 @@ CREATE TABLE Bookings (
     total_cost DECIMAL(10,2),
     
     PRIMARY KEY(booking_id),
-    Foreign Key (user_id) REFERENCES Users(user_id),
-    Foreign Key (match_id) REFERENCES Matches(match_id),
+    Foreign Key (user_id) REFERENCES Users(user_id)
+                        ON DELETE CASCADE
+                        ON UPDATE CASCADE,
+
+    Foreign Key (match_id) REFERENCES Matches(match_id) 
+                        ON DELETE CASCADE
+                        ON UPDATE CASCADE,
+
     CHECK (total_cost>=0),
     CHECK (payment_status IN ('Pending','Confirmed','Cancelled','Refunded'))
     -- Write your constraint to make 'booking_id' the Primary Key
