@@ -15,9 +15,9 @@ DROP TABLE IF EXISTS Users;
 -- =========================================================================
 CREATE TABLE Users (
     user_id SERIAL,
-    full_name VARCHAR(255),
+    full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
-    role VARCHAR(255),
+    role VARCHAR(255) NOT NULL,
     phone_number VARCHAR(30),
 
     PRIMARY KEY(user_id),
@@ -31,10 +31,10 @@ CREATE TABLE Users (
 -- =========================================================================
 CREATE TABLE Matches (
     match_id SERIAL,
-    fixture VARCHAR(255),
-    tournament_category VARCHAR(255),
-    base_ticket_price DECIMAL(10,2),
-    match_status VARCHAR(255),
+    fixture VARCHAR(255) NOT NULL,
+    tournament_category VARCHAR(255) NOT NULL,
+    base_ticket_price DECIMAL(10,2) NOT NULL,
+    match_status VARCHAR(255) NOT NULL,
     PRIMARY KEY(match_id),
     CHECK(base_ticket_price>=0),
     CHECK (match_status IN('Available','Selling Fast','Sold Out','Postponed'))
