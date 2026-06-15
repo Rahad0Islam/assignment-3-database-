@@ -36,7 +36,7 @@ CREATE TABLE Matches (
     base_ticket_price DECIMAL(10,2),
     match_status VARCHAR(255),
     PRIMARY KEY(match_id),
-    CHECK(base_ticket_price>0),
+    CHECK(base_ticket_price>=0),
     CHECK (match_status IN('Available','Selling Fast','Sold Out','Postponed'))
     -- Write your constraint to make 'match_id' the Primary Key
     -- Write your check constraint to prevent negative ticket prices
@@ -58,7 +58,7 @@ CREATE TABLE Bookings (
     PRIMARY KEY(booking_id),
     Foreign Key (user_id) REFERENCES Users(user_id),
     Foreign Key (match_id) REFERENCES Matches(match_id),
-    CHECK (total_cost>0),
+    CHECK (total_cost>=0),
     CHECK (payment_status IN ('Pending','Confirmed','Cancelled','Refunded'))
     -- Write your constraint to make 'booking_id' the Primary Key
     -- Write your Foreign Key constraint linking 'user_id' to the Users table
@@ -103,7 +103,8 @@ INSERT INTO Bookings (booking_id, user_id, match_id, seat_number, payment_status
 
 SELECT match_id,fixture,base_ticket_price
 FROM matches
-WHERE tournament_category = 'Champions League';
+WHERE tournament_category = 'Champions League'
+       AND match_status = 'Available';
 
 
 -- query 2
